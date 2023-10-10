@@ -1,8 +1,6 @@
-import React from "react";
+import DanhSachSanPham from "../product/DanhSachSanPham";
 import Banner from "./components/Banner";
 import Carousel from "./components/Carousel";
-import DanhSachSanPham from "../product/DanhSachSanPham";
-import sachModel from "../../model/SachModel";
 
 const Homepage = () => {
    return(

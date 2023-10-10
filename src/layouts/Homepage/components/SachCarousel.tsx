@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import sachModel from '../../../model/SachModel';
-import { LayToanBoAnhCuaSach } from '../../../api/HinhAnhApi';
+import React, { useEffect, useState } from 'react';
+import { lay1AnhCuaMotSach } from '../../../api/HinhAnhApi';
 import HinhAnhModel from '../../../model/HinhAnhModel';
+import sachModel from '../../../model/SachModel';
 interface SachPropsInterface {
    sach: sachModel;
-   isActive: boolean;
 }
 const SachCarousel: React.FC<SachPropsInterface> = (props) => {
    const maSach = props.sach.maSach;
@@ -13,7 +12,7 @@ const SachCarousel: React.FC<SachPropsInterface> = (props) => {
    const [baoLoi, setBaoLoi] = useState(null);
 
    useEffect(() => {
-      LayToanBoAnhCuaSach(maSach).then(
+      lay1AnhCuaMotSach(maSach).then(
          hinhAnhData => {
             setDanhSachHinhAnhHot(hinhAnhData);
             setDangTaiDuLieu(false);
@@ -48,17 +47,13 @@ const SachCarousel: React.FC<SachPropsInterface> = (props) => {
    }
 
    return (
-      <div className="carousel-inner">
-         <div className={`carousel-item ${props.isActive ? 'active' : ''}`} data-bs-interval="10000">
-            <div className='row align-items-center'>
-               <div className='col-5 text-center'>
-                  <img src={duLieuAnh} className='float-end' alt="..." style={{ width: "150px" }} />
-               </div>
-               <div className="col-7">
-                  <h5>{props.sach.tenSach}</h5>
-                  <p>{props.sach.moTa}.</p>
-               </div>
-            </div>
+      <div className="row align-items-center">
+         <div className="col-5 text-center">
+            <img src={duLieuAnh} className="float-end" style={{ width: '150px' }} />
+         </div>
+         <div className="col-7">
+            <h5>{props.sach.tenSach}</h5>
+            <p>{props.sach.moTa}</p>
          </div>
       </div>
    );

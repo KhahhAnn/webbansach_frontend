@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { LayToanBoSach } from '../../../api/SachAPI';
+import { lay3QuyenMoi } from '../../../api/SachAPI';
 import sachModel from '../../../model/SachModel';
 import SachCarousel from './SachCarousel';
 
+
 const Carousel: React.FC = () => {
-   const [danhSachSachHot, setDanhSachSachHot] = useState<sachModel[]>([]);
+   const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<sachModel[]>([]);
    const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
    const [baoLoi, setBaoLoi] = useState(null);
-   const [currentIndex, setCurrentIndex] = useState(0);
-   const [totalBooks, setTotalBooks] = useState(0);
-   
+
    useEffect(() => {
-      LayToanBoSach().then(
-         sachData => {
-            setDanhSachSachHot(sachData);
+      lay3QuyenMoi().then(
+         kq => {
+            setDanhSachQuyenSach(kq.ketQua);
             setDangTaiDuLieu(false);
-            setTotalBooks(sachData.length);
          }
       ).catch(
          error => {
             setDangTaiDuLieu(false);
             setBaoLoi(error.message);
          }
-      )
-   }, [])
+      );
+   }, [] // Chi goi mot lan
+   )
 
    if (dangTaiDuLieu) {
       return (
@@ -41,28 +40,30 @@ const Carousel: React.FC = () => {
       );
    }
 
-   const handleNext = () => {
-      setCurrentIndex((prevIndex) => (prevIndex) % totalBooks);
-   };
 
-   const handlePrev = () => {
-      setCurrentIndex((prevIndex) => (prevIndex + totalBooks) % totalBooks);
-   };
    return (
-      <div id="carouselExampleDark" className="carousel carousel-dark slide">
-         {
-            danhSachSachHot.map((sach, index) => (
-               <SachCarousel key={index} sach={sach} isActive= {index === currentIndex}/>
-            ))
-         }
-         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
-         </button>
-         <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Next</span>
-         </button>
+      <div>
+         <div id="carouselExampleDark" className="carousel carousel-dark slide">
+            <div className="carousel-inner">
+               <div className="carousel-item active" data-bs-interval="10000">
+                  <SachCarousel key={0} sach={danhSachQuyenSach[0]} />
+               </div>
+               <div className="carousel-item " data-bs-interval="10000">
+                  <SachCarousel key={1} sach={danhSachQuyenSach[1]} />
+               </div>
+               <div className="carousel-item " data-bs-interval="10000">
+                  <SachCarousel key={2} sach={danhSachQuyenSach[2]} />
+               </div>
+            </div>
+            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+               <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+               <span className="visually-hidden">Previous</span>
+            </button>
+            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+               <span className="carousel-control-next-icon" aria-hidden="true"></span>
+               <span className="visually-hidden">Next</span>
+            </button>
+         </div>
       </div>
    );
 }
