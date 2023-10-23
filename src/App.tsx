@@ -1,14 +1,30 @@
-import React from 'react';import './App.css';
+import React, { useState } from 'react'; import './App.css';
 import Navbar from './layouts/header-footer/Navbar';
 import Footer from './layouts/header-footer/Footer';
 import Homepage from './layouts/Homepage/Homepage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import About from './layouts/about/About';
+import ChiTietSanPham from './layouts/product/ChiTietSanPham';
+import DangKy from './layouts/user/DangKyNguoiDung';
 
 function App() {
+
+  const [tuKhoaTimKiem, setTuKhoaTimKiem] = useState('');
+
+
   return (
-    <div>
-        <Navbar />
-        <Homepage />
+    <div className='App'>
+      <BrowserRouter>
+        <Navbar tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoaTimKiem} />
+        <Routes>
+          <Route path='/' element={<Homepage tuKhoaTimKiem={tuKhoaTimKiem} />} />
+          <Route path='/:maTheLoai' element={<Homepage tuKhoaTimKiem={tuKhoaTimKiem} />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/sach/:maSach' element={<ChiTietSanPham />} />
+          <Route path='/dangKy' element={<DangKy />} />
+        </Routes>
         <Footer />
+      </BrowserRouter>
     </div>
   );
 }

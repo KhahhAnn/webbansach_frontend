@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { LayToanBoSach } from '../../api/SachAPI';
+import { LayToanBoSach, timKiemSach } from '../../api/SachAPI';
 import sachModel from '../../model/SachModel';
 import SachProps from './components/SachProps';
 import { PhanTrang } from '../utils/PhanTrang';
 
+interface DanhSachSanPhamProps {
+   tuKhoaTimKiem: string;
+   maTheLoai: number;
+}
 
-const DanhSachSanPham: React.FC = () => {
+const DanhSachSanPham = ({ tuKhoaTimKiem, maTheLoai }: DanhSachSanPhamProps) => {
    const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<sachModel[]>([]);
    const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
    const [baoLoi, setBaoLoi] = useState(null);
@@ -14,16 +18,29 @@ const DanhSachSanPham: React.FC = () => {
    // const [tongSoSach, setTongSoSach] = useState(0);
 
    useEffect(() => {
-      LayToanBoSach(trangHienTai).then(
-         kq => {
-            setDanhSachQuyenSach(kq.ketQua);
-            setTongSoTrang(kq.tongSoTrang)
-            setDangTaiDuLieu(false);
-         }
-      ).catch(
-         message => setBaoLoi(message)
-      )
-   }, [trangHienTai])
+      if (tuKhoaTimKiem === "" && maTheLoai === 0) {
+         LayToanBoSach(trangHienTai).then(
+            kq => {
+               setDanhSachQuyenSach(kq.ketQua);
+               setTongSoTrang(kq.tongSoTrang)
+               setDangTaiDuLieu(false);
+            }
+         ).catch(
+            message => setBaoLoi(message)
+         )
+      } else {
+         timKiemSach(tuKhoaTimKiem, maTheLoai).then(
+            kq => {
+               setDanhSachQuyenSach(kq.ketQua);
+               setTongSoTrang(kq.tongSoTrang)
+               setDangTaiDuLieu(false);
+            }
+         ).catch(
+            message => setBaoLoi(message)
+         )
+      }
+   }, [trangHienTai, tuKhoaTimKiem, maTheLoai])
+
    if (dangTaiDuLieu) {
       return (
          <div>
@@ -44,6 +61,16 @@ const DanhSachSanPham: React.FC = () => {
       setTrangHienTai(trang);
    }
 
+   if (danhSachQuyenSach.length === 0) {
+      return (
+         <div className='container'>
+            <div className='d-flex align-items-center justify-content-center mt-4'>
+               <h1>Hiện không tìm thấy sách theo yêu cầu! </h1>
+            </div>
+         </div>
+      );
+   }
+
    return (
       <div className='container'>
          <div className='row mt-4 mb-4'>
@@ -53,7 +80,7 @@ const DanhSachSanPham: React.FC = () => {
                ))
             }
          </div>
-         <PhanTrang trangHienTai={trangHienTai} tongSoTrang={tongSoTrang} phanTrang={phanTrang}/>
+         <PhanTrang trangHienTai={trangHienTai} tongSoTrang={tongSoTrang} phanTrang={phanTrang} />
       </div>
    );
 }

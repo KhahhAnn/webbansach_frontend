@@ -45,7 +45,7 @@ export const PhanTrang: React.FC<PhanTrangInterface> = (props) => {
                   </li>
                ))
             }
-            <li className="page-item" onClick={() => props.phanTrang(props.tongSoTrang)}>
+            <li className="page-item" onClick={() => props.phanTrang(props.tongSoTrang - 1)}>
                <button className="page-link" >
                   Trang Cuối
                </button>

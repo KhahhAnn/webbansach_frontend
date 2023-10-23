@@ -53,7 +53,6 @@ const SachCarousel: React.FC<SachPropsInterface> = (props) => {
          </div>
          <div className="col-7">
             <h5>{props.sach.tenSach}</h5>
-            <p>{props.sach.moTa}</p>
          </div>
       </div>
    );

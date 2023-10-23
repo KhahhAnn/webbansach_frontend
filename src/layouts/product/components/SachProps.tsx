@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { LayToanBoAnhCuaSach } from '../../../api/HinhAnhApi';
+import { LayToanBoAnhCuaSach, lay1AnhCuaMotSach } from '../../../api/HinhAnhApi';
 import HinhAnhModel from '../../../model/HinhAnhModel';
 import sachModel from '../../../model/SachModel';
+import { Link } from 'react-router-dom';
+import { dinhDangSo } from '../../utils/DinhDangSo';
 
 
 interface SachPropsInterface {
@@ -17,7 +19,7 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
    const [baoLoi, setBaoLoi] = useState(null);
 
    useEffect(() => {
-      LayToanBoAnhCuaSach(maSach).then(
+      lay1AnhCuaMotSach(maSach).then(
          hinhAnhData => {
             setDanhSachAnh(hinhAnhData);
             setDangTaiDuLieu(false);
@@ -57,22 +59,26 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
             flexDirection: "column",
             height: "100%"
          }}>
-            <img
-               src={duLieuAnh}
-               className="card-img-top"
-               alt={props.sach.tenSach}
-               style={{ objectFit: "contain", minHeight: "200px", height: "auto", width: "100%" }}
-            />
-            <div className="card-body" style={{ display: 'flex', justifyContent: "space-between", flexDirection: "column" }}>
+            <Link to={`/sach/${props.sach.maSach}`}>
+               <img
+                  src={duLieuAnh}
+                  className="card-img-top"
+                  alt={props.sach.tenSach}
+                  style={{ objectFit: "contain", minHeight: "200px", height: "auto", width: "100%" }}
+               />
+            </Link>
+
+            <div className="card-body" style={{ display: 'flex', justifyContent: "space-between", flexDirection: "column", alignItems: "center", textAlign:"center" }}>
                <div>
-                  <h5 className="card-title">{props.sach.tenSach}</h5>
-                  <p className="card-text">{props.sach.moTa}</p>
+                  <Link to={`/sach/${props.sach.maSach}`} style={{textDecoration: "none"}}>
+                     <h5 className="card-title" style={{fontSize: "18px"}}>{props.sach.tenSach}</h5>
+                  </Link>
                   <div className="price">
                      <span className="original-price">
-                        <del>{props.sach.giaNiemYet}</del>
+                        <del>{dinhDangSo(props.sach.giaNiemYet?props.sach.giaNiemYet:0)}đ</del>
                      </span>
-                     <span className="discounted-price">
-                        <strong>{props.sach.giaBan}</strong>
+                     <span className="discounted-price" style={{marginLeft: "10px"}}>
+                        <strong>{dinhDangSo(props.sach.giaBan?props.sach.giaBan:0)}đ</strong>
                      </span>
                   </div>
                </div>

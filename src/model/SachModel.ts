@@ -1,4 +1,4 @@
-class sachModel {
+class SachModel {
    maSach: number;
    tenSach?: string;
    giaBan?: number;
@@ -30,4 +30,4 @@ class sachModel {
 
 }
 
-export default sachModel;
+export default SachModel;
