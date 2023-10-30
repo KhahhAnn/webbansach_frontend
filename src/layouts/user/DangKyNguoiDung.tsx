@@ -36,7 +36,6 @@ const DangKy = () => {
       const isMatKhauValid = !kiemTraMatKhau(matKhau);
       const isMatKhauLapLaiValid = !kiemTraMatKhauLapLai(matKhauLapLai);
 
-      // Kiểm tra tất cả các điều kiện
       if (isTenDangNhapValid && isEmailValid && isMatKhauValid && isMatKhauLapLaiValid) {
          try {
             const url = 'http://localhost:8080/tai-khoan/dang-ky';
@@ -53,7 +52,9 @@ const DangKy = () => {
                   hoDem: hoDem,
                   ten: ten,
                   soDienThoai: soDienThoai,
-                  gioiTinh: gioiTinh
+                  gioiTinh: gioiTinh,
+                  daKichHoat: 0,
+                  maKichHoat:""
                })
             }
             );
@@ -100,7 +101,6 @@ const DangKy = () => {
       return kiemTraTenDangNhapDaTonTai(e.target.value);
    }
 
-   ///////////////////////////////////////////////////////////////////////////////
 
 
    // KIỂM TRA TÊN ĐĂNG NHẬP ////////////////////////////////////////////////
